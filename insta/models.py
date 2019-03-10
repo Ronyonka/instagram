@@ -1,3 +1,3 @@
 from django.db import models
-
-# Create your models here.
+from django.contriib.auth.models import User
+from tinymce
