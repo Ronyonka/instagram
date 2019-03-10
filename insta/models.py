@@ -12,3 +12,20 @@ class Profile(models.Model):
     bio = models.TextField()
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 
+    def save_user(self):
+        self.save
+
+    def save_profile(self):
+        self.save()
+
+    @classmethod
+    def get_by_id(cls,id):
+        profile = Profile.objects.get(user=id)
+        return profile
+    
+    def filter_by_id(cls, id):
+        profile = Profile.objects.filter(user=id).first()
+        return profile
+
+    def get_absolute_url(self):
+        return reverse('user_profile')
