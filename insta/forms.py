@@ -4,4 +4,4 @@ from .models import Image
 class NewImageForm(forms.ModelForm):
     class Meta:
         model = Image
-        exclude = ['user','profile','likes','pub_date']
+        exclude = ['user','profile','name','likes','pub_date']

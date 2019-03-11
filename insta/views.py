@@ -8,10 +8,11 @@ from django.core.exceptions import ObjectDoesNotExist
 
 @login_required(login_url='/accounts/login/')
 def home(request):
-    return render(request, 'home.html')
+    images = Image.get_images()
+    return render(request, 'home.html',{"images":images})
 
 
-@login_required(login_url='/accounts/login/'
+@login_required(login_url='/accounts/login/')
 def new_image(request):
     current_user = request.user
     if request.method == 'POST':
@@ -19,12 +20,12 @@ def new_image(request):
         if form.is_valid():
             image = form.save(commit=False)
             image.user = current_user
-            image.profile =profile
             image.save()
-        else:
-            form = NewImageForm()
+        return redirect('home')
+    else:
+        form = NewImageForm()
 
-        return render(request, 'new_image.html', {"form":form})
+    return render(request, 'new_image.html', {"form":form})
 
 # @login_required(login_url='/accounts/login/')
 # def profile(request,username):

@@ -1,6 +1,14 @@
-{% extends 'base.html' %}
-
-{% block content %}
-{{ block.super }}
-<h1>Jamba Juice</h1>
+{%extends 'base.html'%}
+{% load bootstrap3 %}
+{% block content %} 
+{{ block.super}}
+<div class="container">
+    <div class="container-fluid">
+        {% for image in images %}
+        <img src="{{ image.image_path.url}}" alt="image">
+        {% endfor %}
+    </div>
+    
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 {% endblock %}
