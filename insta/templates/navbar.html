@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+      <!-- Fixed navbar -->
+      <nav class="navbar navbar-default navbar-fixed-top" id="photopp" style="background-color: #875053; color: #C6AC8F; font-weight: bold; margin-bottom: 40px;">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="" style=" color: #fff">Photo-Opp</a>
+            </div>
+            <!-- <div id="navbar" class="navbar-collapse collapse"> -->
+              <ul class="nav navbar-nav">
+                <li class="active" style=" color: #875053"><a href="">Home</a></li>
+                <!-- <li><a href="#about" style=" color: #fff">Locations</a></li> -->
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style=" color: #fff">Locations<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="">Asia</a></li>
+                    <li><a href="">Germany</a></li>
+                    <li><a href="">London</a></li>
+                    <li><a href="">Kenya</a></li>
+                    <li><a href="">Maldives</a></li>
+                    <li><a href="">South America</a></li>
+                    <li><a href="">Unspecified</a></li>
+                  </ul>
+                </li>
+
+              </ul>
+          <!-- Adding a search form  -->
+          <div class="col-sm-4 col-md-4 navbar-right">
+    
+            <form class="navbar-form" role="search" action="">
+    
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search Category e.g Nature, Travel... " name="image">
+                <div class="input-group-btn">
+                  <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+              </div>
+    
+            </form>
+          </div>
+          <!-- search form end -->
+
+Home
+Modules
+Assignments
+Discussions
+Grades
+People
+Pages
+Syllabus
+Collaborations
+Tuesday: Django Authentication
+Django Authentication
+So now we can start authenticating our users to our app. There are several ways to do this and the Django community has developed several packages to help us do this smoothly. We will use one called django-registration you can read the documentation from here (Links to an external site.)Links to an external site..
+
+Let's start by registering new users. First let us install the package.
+
+(virtual)$ pip install django-registration==2.4.1
+This package provides two ways to register users 1. Register Using Confirmation Email (Links to an external site.)Links to an external site. 2. One step Register (Links to an external site.)Links to an external site.
+
+We will be using the one step register workflow that will allow us to register our users with the email username and password.
+
+django-registration does not require any other models than those provided in the django-contrib-auth module. That module handles all the authentication for the django application.
+
+First we need to configure the URLs to use the one step workflow.
+
+tribune/urls.py
+
+#.................
+urlpatterns = [
+    url(r'^accounts/', include('registration.backends.simple.urls')),
+]
+We now need to create the template file to handle the registration forms. The django-registration provides the registration form and requires templates to be stored in a template subfolder called registration.
+
+First, let us first create a base file. 
+
+templates/registration/base.html
+
+{% load bootstrap3 %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  {%if title%}
+
+  <title>{{title}}</title>
+
+  {%endif%}
+
+  {% block styles %}
+    {% bootstrap_css %}
+  {% endblock %}
+
+</head>
+
+<body>
+
+  {% block content %}  {%endblock%}
+
+
+  {% block scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    {% bootstrap_javascript %}
+  {% endblock %}
+
+</body>
+
+</html>
+Now we can create the template for the registration form
+
+templates/registration/registration_form.html
+
+{%extends "registration/base.html"%} {% load bootstrap3 %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <!-- Empty div -->
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      {% if form.errors %}
+        <p> Some Information Might be Incorrect </p>
+      {% endif %}
+      <div class="panel panel-default">
+
+        <div class="panel-heading">
+          <h3 class="text-center">Sign Up</h3>
+        </div>
+        <div class="panel-body">
+
+          <form  action="/accounts/register/" method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <div class="form-group">
+              <input type="submit" class="btn btn-primary btn-sm" value="Sign Up">
+            </div>
+
+            <input type="hidden" name="next" value="{{next}}">
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+    <!-- empty div -->
+    <div class="col-md-4"></div>
+  </div>
+</div>
+
+{% endblock %}
+We create a form that sends a post request to accounts/register which will process our form. We use the bootstrap package to load the form. Now we can start our server and navigate to http://127.0.0.1:8000/accounts/register/ (Links to an external site.)Links to an external site. to view the registration page.
+
+Next we want to limit only an authenticated User to view a full article.
+
+news/views.py
+
+from django.contrib.auth.decorators import login_required.
+
+#.......
+
+@login_required(login_url='/accounts/login/')
+def article(request, article_id):
+#.......
+We use the @login_required decorator from the django.contrib.auth.decorators module. We place it before a view function to limit the access the article view function to only authenticated users. We pass in the the login_url argument that will redirect the unauthenticated user to the login route.
+
+Login
+Since Django registration handles all the routes and view functions dealing with authentication we can concentrate on building out the template files.
+
+We can build the login template inside our registration template sub-folder.
+
+templates/registration/login.html
+
+{%extends "registration/base.html"%}
+{% load bootstrap3 %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <!-- Empty div -->
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      {% if form.errors %}
+        <p> Password or Username is incorrect </p>
+      {% endif %}
+      <div class="panel panel-default">
+
+        <div class="panel-heading">
+          <h3 class="text-center">Sign In</h3>
+        </div>
+        <div class="panel-body">
+
+          <form  action="/accounts/login/" method="post">
+            {% csrf_token %}
+            {% bootstrap_form form%}
+
+            <div class="form-group">
+              <input type="submit" class="btn btn-primary btn-sm" value="Login">
+            </div>
+
+            <input type="hidden" name="next" value="{{next}}">
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+    <!-- empty div -->
+    <div class="col-md-4"></div>
+  </div>
+</div>
+
+{% endblock %}
+Let us update our navbar to point the user to the login route.
+
+templates/navbar.html
+
+<!--The search form above-->
+    <div class="col-sm-6 col-md-6">
+            {% if user.is_authenticated %}
+            <ul>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Account
+                          <span class="caret"></span>
+                      </a>
+                <ul class="dropdown-menu" role="menu">
+                  <li>
+                    <a href="{%url 'newsToday'%}">Home</a>
+                  </li>
+                  <li>
+                    <a href="/accounts/password/change">Change Password</a>
+                  </li>
+                  <li>
+                    <a href="/logout">Logout</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            {% else %}
+            <li>
+              <a class='btn btn-default' href="/accounts/login">Login</a>
+            </li>
+
+            {% endif %}
+          </div>
+            <!-- </div>/.nav-collapse -->
+          </div>
+        </nav>
+
+</body>
+</html>
