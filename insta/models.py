@@ -33,7 +33,7 @@ class Profile(models.Model):
 class Image(models.Model):
     image_path =  models.ImageField(upload_to="images/")
     name= models.CharField(max_length=30)
-    caption = models.TextField()
+    caption = HTMLField()
     profile = models.ForeignKey(Profile)
     likes = models.ManyToManyField(User, blank=True,related_name='post_likes')
     pub_date = models.DateTimeField(auto_now_add=True,null=True)

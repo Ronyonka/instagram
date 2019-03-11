@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'insta.apps.InstaConfig',
     'bootstrap3',
     'django_forms_bootstrap',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
