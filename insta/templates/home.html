@@ -2,31 +2,31 @@
 
 {% block content %} 
 {{ block.super}}
+<body style="overflow-x:hidden">
 
-<div class="container">
+    <div class="container" id="image-section">
+        <div class="row mt-3">
+        {% for image in images %}
+        <div class="col-md-7" style="margin-top:20px;"> 
+                <div class="panel panel-default"  id="{{image.id}}">
+                        <div class="panel-heading">
+                        <img src="{{image.profile.profile.profile_picture.url}}" alt="profile" height="40px" width="40px" style="border-radius: 50%;">
+                        <a href="{% url 'profile' image.profile.id%}">{{ image.profile}}</a> 
+                    </div>
+                    <div class="panel-body">
+                        <img src="{{ image.image_path.url}}" alt="image" class="img-responsive" style="width:350px; height:350px;margin:auto; margin-left: auto;margin-right:auto;">
+                    </div>
 
-        <div class="row">
-                <div class="col-md-8 center-block">
-                {% for image in images %}
-                <div class="card text-center">              
-                
-                <div class="card-header"> 
-                <img src="{{image.profile.profile.profile_picture.url}}" alt="profile" height="40px" width="40px" style="border-radius: 50%;">
-               <a href="{% url 'profile' image.profile.id%}">{{ image.profile}}</a> 
-                </div>
-                <div class="card-body">
-                <img src="{{ image.image_path.url}}" alt="image" class="image" style="height:250px; width:auto;">
-                </div>
-                <div class="card-footer text-muted">
-                
-                </div>
+                    <div class="panel-footer text-muted">    
+                            {% autoescape on %}
+                            {{image.caption| safe}}           
+                            {% endautoescape %}    
+                    </div>
+                </div>  
             </div>
-
-           
-
-        {% endfor %}
-
-    
-</div>
+        </div>
+        {% endfor %} 
+    </div>  
+</body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 {% endblock %}
