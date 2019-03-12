@@ -46,10 +46,8 @@ class Profile(models.Model):
 
 class Image(models.Model):
     image_path =  models.ImageField(upload_to="images/")
-    # name= models.CharField(max_length=30)
     caption = HTMLField(null=True)
     profile = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
-    likes = models.ManyToManyField(User, blank=True,related_name='post_likes')
     pub_date = models.DateTimeField(auto_now_add=True,null=True)
 
     def save_image(self):
@@ -98,4 +96,18 @@ class Comments(models.Model):
         
     def __str__(self):
         return self.text
+
+class Like(models.Model):
+
+   liked = models.ForeignKey(Image, on_delete=models.CASCADE)
+   liked_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+   @classmethod
+   def likes(cls,img,prfl):
+      like = cls(liked=img,liked_by=prfl)
+      return like.save()
+
+   def delete_like(self):
+      like = Like.objects.all(self)
+      return like.delete()
 

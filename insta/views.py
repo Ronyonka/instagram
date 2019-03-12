@@ -52,15 +52,3 @@ def edit_profile(request):
         form = ProfileForm()
     return render(request, "edit_profile.html", {"form":form})  
 
-@login_required (login_url='/accounts/register/')
-def like_image(request):
-    images = get_object_or_404(Image,id = request.POST.get('image_id') )
-    is_liked = False
-    if images.likes.filter(id = request.user.id).exists():
-        images.likes.remove(request.user)
-        is_liked = False
-    else:
-        images.likes.add(request.user)
-        is_liked = True
-
-    return HttpResponseRedirect(images.get_absolute_url())
