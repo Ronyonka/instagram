@@ -1,11 +1,28 @@
 {%extends 'base.html'%}
-{% load bootstrap3 %}
+
 {% block content %} 
 {{ block.super}}
 <div class="container">
     <div class="container-fluid">
-        {% for image in images %}
-        <img src="{{ image.image_path.url}}" alt="image">
+        <div class="row">
+                <div class="col-md-8 center-block">
+                {% for image in images %}
+                <div class="card text-center">
+                
+                <div class="card-header"> 
+                {{ image.profile}}
+                </div>
+                <div class="card-body">
+                <img src="{{ image.image_path.url}}" alt="image" class="image" style="height:250px; width:auto;">
+                </div>
+                <div class="card-footer text-muted">
+                
+                </div>
+            </div>
+            </div>
+        </div>
+           
+
         {% endfor %}
     </div>
     

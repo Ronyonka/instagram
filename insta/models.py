@@ -12,6 +12,9 @@ class Profile(models.Model):
     bio = models.TextField()
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 
+    def __str__(self):
+        return f'{self.user}'
+
     def save_user(self):
         self.save
 
@@ -40,7 +43,7 @@ class Image(models.Model):
     image_path =  models.ImageField(upload_to="images/")
     # name= models.CharField(max_length=30)
     caption = HTMLField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+    profile = models.ForeignKey(Profile)
     likes = models.ManyToManyField(User, blank=True,related_name='post_likes')
     pub_date = models.DateTimeField(auto_now_add=True,null=True)
 
@@ -61,4 +64,30 @@ class Image(models.Model):
     def show_image(cls,profile):
         images =  cls.objects.filter(profile__user=profile)
         return images
+
+class Comments(models.Model):
+    text = models.CharField(max_length = 100, blank = True)
+    image = models.ForeignKey(Image, related_name = "comments")
+    author = models.ForeignKey(User, related_name = "author")
+    created_date = models.DateTimeField(auto_now_add = True,null = True)
+    approved_comment = models.BooleanField(default=False)
+
+
+ 
+    def save_comment(self):
+       """
+       This is the function that we will use to save the instance of this class
+       """
+       self.save()
+
+    def delete_comment(self):
+        Comments.objects.get(id = self.id).delete()
+    
+    @classmethod
+    def get_comments_by_images(cls, id):
+        comments = Comments.objects.filter(image__pk = id)
+        return comments
+        
+    def __str__(self):
+        return self.text
 

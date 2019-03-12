@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'insta.apps.InstaConfig',
     'bootstrap3',
+    'bootstrap4',
     'django_forms_bootstrap',
     'tinymce',
 ]
