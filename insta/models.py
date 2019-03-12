@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.template.defaultfilters import slugify
 
 class Profile(models.Model):
-    profile_picture = models.ImageField(blank=True, upload_to='profiles/')
+    profile_picture = models.ImageField(null=True, upload_to='profiles/')
     bio = models.TextField()
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 
