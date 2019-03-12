@@ -31,5 +31,6 @@ def new_image(request):
 @login_required(login_url='/accounts/login/')
 def profile(request):
     user = request.user
-    images = Image.get_images()
-    return render(request, 'profile.html',{"user":user, "current_user":request.user,"images":images})
+    images = Image.objects.all()
+    profile = Profile.objects.all()
+    return render(request, 'profile.html',{"images":images,"current_user":request.user,"user":user,})
