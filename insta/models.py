@@ -26,6 +26,11 @@ class Profile(models.Model):
         profile = Profile.objects.get(user=id)
         return profile
     
+    @classmethod
+    def get_profile_by_username(cls, user):
+        profiles = cls.objects.filter(user__contains=user)
+        return profiles
+
     def filter_by_id(cls, id):
         profile = Profile.objects.filter(user=id).first()
         return profile
@@ -42,8 +47,8 @@ class Profile(models.Model):
 class Image(models.Model):
     image_path =  models.ImageField(upload_to="images/")
     # name= models.CharField(max_length=30)
-    caption = HTMLField()
-    profile = models.ForeignKey(Profile)
+    caption = HTMLField(null=True)
+    profile = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     likes = models.ManyToManyField(User, blank=True,related_name='post_likes')
     pub_date = models.DateTimeField(auto_now_add=True,null=True)
 
@@ -59,6 +64,12 @@ class Image(models.Model):
     @classmethod
     def get_images(cls):
         return cls.objects.all()
+        
+
+    @classmethod
+    def get_profile_images(cls,profile):
+        user = cls.objects.filter(profile__user=user.id)
+        return user
 
     @classmethod
     def show_image(cls,profile):
@@ -75,9 +86,6 @@ class Comments(models.Model):
 
  
     def save_comment(self):
-       """
-       This is the function that we will use to save the instance of this class
-       """
        self.save()
 
     def delete_comment(self):

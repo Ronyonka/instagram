@@ -1,3 +1,28 @@
 {% extends 'base.html'%}
 {% block content%}
-{% block content%}
+
+{% if user.username == user.username %}
+<h1>Welcome to {{ user.username}}</h1>
+
+<div class="row">
+    {% for image in images %}
+    
+  
+    <img src="{{ image.image_path.url}}" alt="image" class="image" style="height:250px; width:auto;">
+    
+    
+</div>
+</div>
+</div>
+
+
+{% endfor %}
+
+
+</div>
+
+{% else %}
+<h1>Welcome to {{ user.username}}</h1>
+{% endif %}
+
+{% endblock %}
