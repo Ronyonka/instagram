@@ -1,4 +1,5 @@
 {%extends 'base.html'%}
+{% load static %}
 
 {% block content %} 
 {{ block.super}}
@@ -17,10 +18,17 @@
                         <img src="{{ image.image_path.url}}" alt="image" class="img-responsive" style="width:350px; height:350px;margin:auto; margin-left: auto;margin-right:auto;">
                     </div>
 
-                    <div class="panel-footer text-muted">    
+                    <div class="panel-footer text-muted"> 
+                            <a href="{% url 'like' image.id %}">
+                                    <img src="{% static 'image/like.jpg' %}" alt="" style="width:20px;height: 20px;">
+                                 </a>
+                            <p>{{ image.like_set.count }} Likes</p>  
+                        <hr>   
                             {% autoescape on %}
                             {{image.caption| safe}}           
-                            {% endautoescape %}    
+                            {% endautoescape %}  
+                            <hr>
+                            
                     </div>
                 </div>  
             </div>

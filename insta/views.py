@@ -1,9 +1,9 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from .models import Image,Profile
+from .models import Image,Profile,Like
 from django.contrib.auth.models import User
-from .forms import NewImageForm,ProfileForm
+from .forms import NewImageForm,ProfileForm,CommentsForm
 from django.core.exceptions import ObjectDoesNotExist
 
 @login_required(login_url='/accounts/login/')
@@ -53,13 +53,13 @@ def edit_profile(request):
     return render(request, "edit_profile.html", {"form":form})  
 
 
-def like(request,image_id):
+def like(request,id):
 
    user = request.user
 
-   image = Image.objects.filter(pk=image_id).first()
+   image = Image.objects.get(id=id)
    like = image.like_set.filter(liked_by=user.profile).first()
-   # like = Like.objects.get(liked=image,liked_by=user.profile)
+  
 
    if like:
       like.delete()

@@ -82,6 +82,9 @@ class Comments(models.Model):
     approved_comment = models.BooleanField(default=False)
 
 
+    def __str__(self):
+        return self.comment
+
  
     def save_comment(self):
        self.save()
