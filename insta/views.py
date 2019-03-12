@@ -52,3 +52,18 @@ def edit_profile(request):
         form = ProfileForm()
     return render(request, "edit_profile.html", {"form":form})  
 
+
+def like(request,image_id):
+
+   user = request.user
+
+   image = Image.objects.filter(pk=image_id).first()
+   like = image.like_set.filter(liked_by=user.profile).first()
+   # like = Like.objects.get(liked=image,liked_by=user.profile)
+
+   if like:
+      like.delete()
+   else:
+      Like.likes(image,user.profile)
+
+   return redirect('home')
