@@ -2,7 +2,7 @@
 {% load bootstrap3 %}
 {% block content%}
 <div class="container">
-        <form action="{%url 'edit_profile' user %}" method="post" enctype="multipart/form-data">
+        <form action="{%url 'edit_profile' %}" method="post" enctype="multipart/form-data">
             {%csrf_token%}
 
             {% bootstrap_form form%}

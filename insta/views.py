@@ -3,13 +3,15 @@ from django.http import HttpResponse,Http404,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .models import Image,Profile
 from django.contrib.auth.models import User
-from .forms import NewImageForm
+from .forms import NewImageForm,ProfileForm
 from django.core.exceptions import ObjectDoesNotExist
 
 @login_required(login_url='/accounts/login/')
 def home(request):
     images = Image.get_images()
-    return render(request, 'home.html',{"images":images})
+    user = request.user
+    profile = Profile.objects.all()
+    return render(request, 'home.html',{"images":images,"profile":profile,"user":request.user})
 
 
 @login_required(login_url='/accounts/login/')
@@ -33,4 +35,19 @@ def profile(request,id):
     user = User.objects.get(id=id)
     images = Image.objects.all().filter(profile_id = user.id)
     profile = Profile.objects.all()
-    return render(request, 'profile.html',{"images":images,"current_user":request.user,"user":user,})
+    return render(request, 'profile.html',{"images":images,"profile":profile,"current_user":request.user,"user":user,})
+
+
+def edit_profile(request):
+    current_user = request.user
+  
+    if request.method == "POST":
+        form = ProfileForm(request.POST,request.FILES)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = current_user
+            profile.save()
+            return redirect("/profile/" + str(request.user.id) + "/")
+    else:
+        form = ProfileForm()
+    return render(request, "edit_profile.html", {"form":form})  
