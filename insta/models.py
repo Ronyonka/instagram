@@ -67,9 +67,9 @@ class Image(models.Model):
         
 
     @classmethod
-    def get_profile_images(cls,profile):
-        user = cls.objects.filter(profile__user=user.id)
-        return user
+    def filter_by_user(cls,profile):
+        the_user = User.objects.get(username = profile)
+        return cls.objects.filter(profile__id = the_user.id)
 
     @classmethod
     def show_image(cls,profile):
