@@ -66,3 +66,31 @@ def edit_profile(request,username):
 
     return render(request,'edit_profile.html',{"form":form})
 
+@login_required(login_url='/accounts/login/')
+def image(request,image_id):
+
+    image = Image.objects.get(id = image_id)
+    comments = Comments.get_comments_by_images(image_id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.image = image
+            comment.author = request.user
+            comment.save()
+            return redirect('home')
+    else:
+        form = CommentForm()
+
+    is_liked = False
+    if image.likes.filter(id = request.user.id).exists():
+        is_liked = True
+    
+    return render(request,"image.html", {"image":image,"is_liked":is_liked,"total_likes":image.total_likes(),'comments':comments,'form':form})
+
+@login_required(login_url='/accounts/login/')
+def profile(request):
+    user = request.user
+    #profile = Profile.objects.get(user_id=current_user.id)
+    images = Image.objects.all().filter(profile_id=user.id)
+    return render(request, 'profile.html',{"user":user, "current_user":request.user,"images":images})
