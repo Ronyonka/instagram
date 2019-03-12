@@ -10,7 +10,7 @@
                 <div class="card text-center">
                 
                 <div class="card-header"> 
-               <a href="{% url 'profile' %}">{{ image.profile}}</a> 
+               <a href="{% url 'profile' image.profile.id%}">{{ image.profile}}</a> 
                 </div>
                 <div class="card-body">
                 <img src="{{ image.image_path.url}}" alt="image" class="image" style="height:250px; width:auto;">

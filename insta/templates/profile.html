@@ -1,7 +1,7 @@
 {% extends 'base.html'%}
 {% block content%}
 
-{% if user.username == user.username %}
+
 <h1>Welcome to {{ user.username}}</h1>
 
 <div class="row">
@@ -17,9 +17,7 @@
 
 
 {% endfor %}
-{% else %}
-<h1>Welcome to {{ user.username}}</h1>
-{% endif%}
+
 
 </div>
 
