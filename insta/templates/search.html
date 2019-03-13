@@ -12,11 +12,11 @@
             {% for profile in profiles %}
             <div class="col-md-3 home-images search-results">
                 {% if profile.prof_pic %}
-                <img src="{{profile.prof_pic.cdn_url}}" alt="profile-photo">
+                <img src="{{profile.profile.profile_picture.url}}" alt="profile-photo">
                 {% else %}
                 <img src="/static/img/avatah.png" alt="avatar">
                 {% endif %}
-                <p class="username">{{profile.}} </p>
+                <p class="username">{{profile.profile}} </p>
                 <p><a class="btn btn-primary" href="{% url 'profile' image.profile.id%}">View Profile</a></p>
             </div>
             {% endfor %}
