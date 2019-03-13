@@ -11,13 +11,13 @@
         {% if profiles %}
             {% for profile in profiles %}
             <div class="col-md-3 home-images search-results">
-                {% if profile.prof_pic %}
-                <img src="{{profile.profile.profile_picture.url}}" alt="profile-photo">
+                {% if profile.profile_picture %}
+                <img src="{{profile.profile_picture.url}}" alt="profile-photo">
                 {% else %}
-                <img src="/static/img/avatah.png" alt="avatar">
+                <img src="#" alt="avatar">
                 {% endif %}
-                <p class="username">{{profile.profile}} </p>
-                <p><a class="btn btn-primary" href="{% url 'profile' image.profile.id%}">View Profile</a></p>
+                <p class="username">{{profile.user}} </p>
+                <p><a class="btn btn-primary" href="{% url 'profile' profile.id%}">View Profile</a></p>
             </div>
             {% endfor %}
         {% else %} 
