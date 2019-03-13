@@ -80,8 +80,8 @@ DISABLE_COLLECTSTATIC=1
 ### Make migrations
 
 
--`(virtual)$ python3.6 manage.py makemigrations photos`
--`(virtual)$ pytohon3.6 manage.py migrate`
+- `(virtual)$ python3.6 manage.py makemigrations photos`
+- `(virtual)$ pytohon3.6 manage.py migrate`
 
 
 ### Run `manage.py` in the terminal
