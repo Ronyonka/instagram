@@ -5,94 +5,93 @@ This is a clone of the web version of the popular social media app Instagram.
 #### By **Ron Onyonka**
 
 ## Description
-This is a Django application which allows users to view photos which can be filtered into their different categories and locations.
+This is my attempt to clone instagram and its features.
 
-Try it out : <https://ronstagram.herokuapp.com//>
-## Prerequisites
-You need the following to work on the project: -
-* Python version 3.6 
-* Pip 
-* venv 
-* A text Editor(vscode preferably)
-
-## Setup/Installation Requirements
-* To start using this project use the following commands:
-```bash
-$ git clone https://github.com/Ronyonka/instagram
-```
-```bash
-$ cd Blog
-```
-
-* create a virtual environment
-```bash
-$ python3.6 -m venv virtual
-```
-* navigate into the virtual environment
-```bash
-$ source virtual/bin/activate
-```
-* while in the Virtual environment install the dependencies found in the  requirements.txt file
-
-```bash
-(virtual)$ pip install -r requirements.txt
-```
-* create a .env file and in it input the following:
-```bash
-SECRET_KEY=''
-DEBUG=True #Set To False in Production
-DB_NAME='<Your DB Name>'
-DB_USER='<Your DB Username>'
-DB_PASSWORD='<Your DB Password>'
-DB_HOST='127.0.0.1'
-MODE='dev' #set to prod in production
-ALLOWED_HOSTS=['*']
-DISABLE_COLLECTSTATIC=1
-
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'EMAIL'
-EMAIL_HOST_PASSWORD = 'EMAIL-PASSWORD'
-```
-* add the .env file into the .gitignore (make sure not to git add or commit before adding it to the .gitignore)
-* create a database called gallery
-
-```bash
-(virtual)$ psql
-<your db username>=# CREATE DATABASE instagram;
-```
-* make migrations
-```bash
-(virtual)$ python3.6 manage.py makemigrations photos
-(virtual)$ pytohon3.6 manage.py migrate
-```
-
-* to run the project enter this command
-```bash
-(virtual)$ python3.6 manage.py runserver
-```
-* access the application on this localhost address http://127.0.0.1:8000
 
 ## Behaviour Driven Development
 | Behaviour     | Input     | Output  |
 | ------------- |:-------------:| -----:|
 | User Signs Up| Enter Their Credentials| Redirected to the profile creation page|
 | User log in | Username and password | Redirected to the homepage with other users images |
-| User wants to search for image | They enter a category name in the search bar | They are directed to a page with images from that category displayed |
-| User wants to view images from a certain location | They select a location from a dropdown list | Photos from that location are displayed |
+| Search for User| They enter a username in the search bar | They are directed to a page with profiles of the specific users displayed |
+| Uploading images | They select add image| they select an image from their device that they would love to add |
+| Liking a picture | They select a heart icon at the bottom of the image| one like is added to the image |
 
 ## Link to Live Website 
 Here is a link to the live website: <https://ronstagram.herokuapp.com/>
 
-## Known Bugs
-None known at the moment.
+### Technologies Used
 
-## Technologies Used
-* HTML
-* JavaScript
-* CSS
-* Python
+- HTML
+- CSS
+- django-Bootstrap4
+- Python3.6
+- Heroku
+- Django
+
+## Setup/Installation Requirements
+
+
+### Prerequisites
+You need the following to work on the project: -
+* Python version 3.6 
+* Pip 
+* venv 
+* A text Editor(vscode preferably)
+* git
+
+### Clone the repo and check into the project folder
+
+- `git clone https://github.com/Ronyonka/instagram`
+- `cd instagram-clone`
+
+### Create and activate the virtual environment
+
+- `$ python3.6 -m venv virtual`
+- `$ source virtual/bin/activate`
+
+
+### Install the dependencies found in the  requirements.txt file
+
+```bash
+(virtual)$ pip install -r requirements.txt
+```
+
+### Create a .env file and in it input the following:
+
+```bash
+SECRET_KEY=''
+DEBUG=True #Set To False in Production
+DB_NAME='instagram'
+DB_USER='user'
+DB_PASSWORD='password'
+DB_HOST='127.0.0.1'
+MODE='dev' #set to prod in production
+ALLOWED_HOSTS=['*']
+DISABLE_COLLECTSTATIC=1
+```
+### Create a database
+
+```bash
+(virtual)$ psql
+    user=# CREATE DATABASE instagram;
+```
+
+### Make migrations
+
+
+-`(virtual)$ python3.6 manage.py makemigrations photos`
+-`(virtual)$ pytohon3.6 manage.py migrate`
+
+
+### Run `manage.py` in the terminal
+
+```bash
+(virtual)$ python3.6 manage.py runserver
+```
+
+## Known Bugs
+None at the moment.
 
 ## License
 MIT License
