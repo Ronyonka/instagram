@@ -38,11 +38,15 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return reverse('user_profile')
 
-    @classmethod
-    def search_by_username(cls,user):
-        person = User.objects.filter(username__icontains = user)[0]
-        return cls.objects.filter(profile__id = person.id)
+    # @classmethod
+    # def search_by_username(cls,user):
+    #     person = User.objects.filter(username__icontains = user)[0]
+    #     return cls.objects.filter(profile__id = person.id)
         
+    @classmethod
+    def search_profile(cls, name):
+        profile = Profile.objects.filter(user__username__icontains = name)
+        return profile
 
 class Image(models.Model):
     image_path =  models.ImageField(upload_to="images/")
@@ -62,7 +66,11 @@ class Image(models.Model):
     @classmethod
     def get_images(cls):
         return cls.objects.all()
-        
+
+    @classmethod
+    def get_image_id(cls, id):
+        image = Image.objects.get(pk=id)
+        return image
 
     @classmethod
     def filter_by_user(cls,profile):
@@ -89,6 +97,8 @@ class Comments(models.Model):
     def save_comment(self):
        self.save()
 
+       
+
     def delete_comment(self):
         Comments.objects.get(id = self.id).delete()
     
@@ -99,6 +109,11 @@ class Comments(models.Model):
         
     def __str__(self):
         return self.text
+
+    @classmethod
+    def get_comments_by_images(cls, id):
+        comments = Comments.objects.filter(image__pk = id)
+        return comments
 
 class Like(models.Model):
 
