@@ -6,7 +6,7 @@ class NewImageForm(forms.ModelForm):
         model = Image
         fields = ('image_path', 'caption')
 
-class  CommentsForm(forms.ModelForm):
+class  CommentForm(forms.ModelForm):
     class Meta:
         model = Comments
         fields = ('text',)

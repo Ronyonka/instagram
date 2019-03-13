@@ -10,6 +10,7 @@ urlpatterns=[
     url(r'^profile/(\d+)',views.profile, name='profile'),
     url(r'^profile/update/$',views.edit_profile,name='edit_profile'),    
     url(r'^like/(\d+)$',views.like,name='like'),
+    url(r'^image/(\d+)', views.single_image, name='single_image'),
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

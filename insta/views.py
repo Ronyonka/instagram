@@ -1,9 +1,9 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from .models import Image,Profile,Like
+from .models import Image,Profile,Like,Comments
 from django.contrib.auth.models import User
-from .forms import NewImageForm,ProfileForm,CommentsForm
+from .forms import NewImageForm,ProfileForm,CommentForm
 from django.core.exceptions import ObjectDoesNotExist
 
 @login_required(login_url='/accounts/login/')
@@ -67,3 +67,22 @@ def like(request,id):
       Like.likes(image,user.profile)
 
    return redirect('home')
+
+
+@login_required(login_url='/accounts/login')
+def single_image(request, id):
+    image = Image.objects.get(id=id)
+    comments = Comments.objects.filter(image_id = image.id)
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.image = image
+            comment.user = request.user
+            comment.save()
+            return redirect("single_image/"+ str(image.id)+"/")
+    else:
+        form = CommentForm()
+
+    return render(request, 'image.html', {'image':image, 'form':form, 'comments':comments})

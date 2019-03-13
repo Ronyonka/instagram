@@ -22,13 +22,27 @@
                             <a href="{% url 'like' image.id %}">
                                     <img src="{% static 'image/like.jpg' %}" alt="" style="width:20px;height: 20px;">
                                  </a>
+                                 <p class="list-inline-item">
+                                    <a href="{% url 'single_image' image.id %}">comments...</i></a>
+                                 </p>
+                
                             <p>{{ image.like_set.count }} Likes</p>  
                         <hr>   
                             {% autoescape on %}
                             {{image.caption| safe}}           
                             {% endautoescape %}  
                             <hr>
-                            
+                            {% for comment in comments  %}
+                            {% if comment.commented_on == image %}
+                               <p><span>{{ image.comment.author.user.username }}</span> {{ comment.text }}</p>
+                               <form action="" method="POST">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <input type="text" name="image_id" id="image_id" value="{{ post.id }}" hidden>
+                                    <button type="submit" hidden></button>
+                                 </form>
+                            {% endif %}
+                         {% endfor %}
                     </div>
                 </div>  
             </div>
