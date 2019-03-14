@@ -18,18 +18,18 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         exclude = ['user']
 
-class Registration(UserCreationForm):
-   '''
-   Form that extends the UserCreationForm
-   Added fields are the name and email fields.
-   '''
-   username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Username'}))
-   email= forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'Email'}), max_length=64)
-   password1= forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
-   password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}))
+# class Registration(UserCreationForm):
+#    '''
+#    Form that extends the UserCreationForm
+#    Added fields are the name and email fields.
+#    '''
+#    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Username'}))
+#    email= forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'Email'}), max_length=64)
+#    password1= forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+#    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}))
 
 
-   class Meta(UserCreationForm.Meta):
-      model = User
-      fields = UserCreationForm.Meta.fields + ("email","username","password1")
+#    class Meta(UserCreationForm.Meta):
+#       model = User
+#       fields = UserCreationForm.Meta.fields + ("email","username","password1")
    

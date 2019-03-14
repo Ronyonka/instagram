@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from .models import Image,Profile,Like,Comments
 from django.contrib.auth.models import User
-from .forms import NewImageForm,ProfileForm,CommentForm,Registration
+from .forms import NewImageForm,ProfileForm,CommentForm
 from django.core.exceptions import ObjectDoesNotExist
 
 @login_required(login_url='/accounts/login/')
@@ -19,26 +19,6 @@ def own_profile(request):
     images = Image.objects.all().filter(profile_id = user.id)
     return render(request, 'profile.html', {'images':images, "user":user, "current_user":request.user })
 
-def register(request):
-
-   if request.method == 'POST':
-      form = Registration(request.POST)
-      if form.is_valid():
-         form.save()
-         username = form.cleaned_data.get('username')
-         raw_password = form.cleaned_data.get('password1')
-         user = authenticate(username=username, password=raw_password)
-         login(request, user)
-         user = User.objects.filter
-         return redirect('edit_profile')
-   else:
-      form = Registration()
-
-   context = {
-      'form': form
-   }
-
-   return render(request, 'edit_profile.html', context)
 
 
 @login_required(login_url='/accounts/login/')
@@ -77,7 +57,7 @@ def edit_profile(request):
             return redirect("/profile/" + str(request.user.id) + "/")
     else:
         form = ProfileForm()
-    return render(request, "edit_profile.html", {"form":form})  
+    return render(request, "edit_profile.html", {"form":form, "current_user":request.user,})  
 
 
 def like(request,id):
