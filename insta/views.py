@@ -45,19 +45,22 @@ def profile(request,id):
     return render(request, 'profile.html',{"images":images,"profile":profile,"current_user":request.user,"user":user,})
 
 
-def edit_profile(request):
+def edit_profile(request,username):
     current_user = request.user
-  
-    if request.method == "POST":
+    if request.method == 'POST':
         form = ProfileForm(request.POST,request.FILES)
         if form.is_valid():
-            profile = form.save(commit=False)
-            profile.user = current_user
-            profile.save()
-            return redirect("/profile/" + str(request.user.id) + "/")
+            bio = form.save(commit=False)
+            bio.user = current_user
+            bio.save()
+        return redirect('home')
+    elif Profile.objects.get(user=current_user):
+        profile = Profile.objects.get(user=current_user)
+        form = ProfileForm(instance=profile)
     else:
         form = ProfileForm()
-    return render(request, "edit_profile.html", {"form":form, "current_user":request.user,})  
+
+    return render(request,'edit_profile.html',{"form":form})
 
 
 def like(request,id):

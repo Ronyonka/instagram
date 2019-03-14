@@ -1,3 +1,4 @@
+{% extends 'base.html'%}
 {% load bootstrap3 %} 
 <!DOCTYPE html>
 <html>
@@ -9,12 +10,13 @@
   <title>Update Profile</title>
   {{form.media}}
 </head>
-<div class="container"></div>
+{% block content %}
+
 <body>
+        <div class="container"></div>
 
-
-
-        <form action="{%url 'edit_profile' %}" method="post" enctype="multipart/form-data">
+ <form action="{%url 'edit_profile' user %}" method="post" enctype="multipart/form-data"></form>
+       
             {%csrf_token%}
 
             {% bootstrap_form form%}
@@ -23,6 +25,7 @@
    
 
 </div>
+{% endblock %}
 {% block scripts %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 {% bootstrap_javascript %} {% endblock %}

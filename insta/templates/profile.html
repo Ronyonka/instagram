@@ -9,7 +9,7 @@
         </div>
         <h1>{{ user.username}}</h1>
         <p>{{user.profile.bio}}</p>
-        <button class=""><a href="{% url 'edit_profile' %}">Edit Profile</a></button>
+        <button class=""><a href="{%url 'edit_profile' profile.user%}">Edit Profile</a></button>
 </div>
 
 
