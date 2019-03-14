@@ -8,6 +8,7 @@ urlpatterns=[
     url('^$', views.home, name='home'),
     url(r'^new/image$', views.new_image, name='new-image'),
     url(r'^profile/(\d+)',views.profile, name='profile'),
+    url(r'^profile',views.own_profile, name='myprofile'),
     url(r'^profile/update/$',views.edit_profile,name='edit_profile'),    
     url(r'^like/(\d+)$',views.like,name='like'),
     url(r'^image/(?P<image_id>\d+)', views.single_image, name='single_image'),
